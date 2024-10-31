@@ -1,0 +1,7 @@
+parameters:
+	ignoreErrors:
+		- '#Access to an undefined property OpenAPITools\\Contract\\Package::#'
+		- '#thecodingmachine\/safe#'
+		- '#Parameter \#2 \$haystack of static method PHPUnit\\Framework\\Assert::assertStringContainsString\(\) expects string, PhpParser\\Node\|string given.#'
+includes:
+	- ../../vendor/wyrihaximus/test-utilities/rules.neon

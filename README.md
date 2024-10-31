@@ -1,1 +1,2 @@
-# generator-templates
+# utils
+Utils for OpenAPI Tools

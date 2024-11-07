@@ -86,6 +86,7 @@ final class TemplatesTest extends TestCase
                     ]),
                     $generatedFile->contents,
                 ]),
+                File::DO_NOT_LOAD_ON_WRITE,
             );
         }
 

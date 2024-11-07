@@ -32,6 +32,7 @@ final readonly class Templates implements FileGenerator
                 '',
                 $file->fileName,
                 $file->contents,
+                File::DO_NOT_LOAD_ON_WRITE,
             );
         }
     }

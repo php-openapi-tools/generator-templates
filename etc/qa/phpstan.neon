@@ -1,7 +1,12 @@
 parameters:
+	level: max
+	paths:
+		- ../../etc
+		- ../../src
+		- ../../tests
 	ignoreErrors:
 		- '#Access to an undefined property OpenAPITools\\Contract\\Package::#'
-		- '#thecodingmachine\/safe#'
-		- '#Parameter \#2 \$haystack of static method PHPUnit\\Framework\\Assert::assertStringContainsString\(\) expects string, PhpParser\\Node\|string given.#'
-includes:
-	- ../../vendor/wyrihaximus/test-utilities/rules.neon
+		- '#Cannot access property \$variables on mixed\.#'
+		- '#Cannot access property \$dir on mixed\.#'
+		- '#Parameter \#1 \$string of function rtrim expects string, mixed given\.#'
+		- '#Parameter \#2 \$haystack of static method PHPUnit\\Framework\\Assert::assertStringContainsString\(\) expects string, PhpParser\\Node\|string given\.#'

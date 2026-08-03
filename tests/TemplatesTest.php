@@ -20,7 +20,8 @@ use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\Attributes\Test;
 use WyriHaximus\TestUtilities\TestCase;
 
-use function file_get_contents;
+use function file;
+use function implode;
 use function is_string;
 
 use const DIRECTORY_SEPARATOR;
@@ -31,7 +32,7 @@ final class TemplatesTest extends TestCase
     #[DataProviderExternal(Provider::class, 'sets')]
     public function generate(DataSet $dataSet): void
     {
-        $representation = self::loadSpec($dataSet->fileName);
+        $representation = $this->loadSpec($dataSet->fileName);
 
         $package = new Package(
             new Package\Metadata(
@@ -74,13 +75,13 @@ final class TemplatesTest extends TestCase
             [],
         );
 
-        $generatedFiles = [...(new Templates())->generate($package, $representation->namespace($package->namespace))];
+        $generatedFiles = [...new Templates()->generate($package, $representation->namespace($package->namespace))];
         $files          = [];
         foreach ($generatedFiles as $generatedFile) {
             $files[$generatedFile->fqcn] = new File(
                 $generatedFile->pathPrefix,
                 $generatedFile->fqcn,
-                is_string($generatedFile->contents) ? $generatedFile->contents : (new Standard())->prettyPrint([
+                is_string($generatedFile->contents) ? $generatedFile->contents : new Standard()->prettyPrint([
                     new Node\Stmt\Declare_([
                         new Node\Stmt\DeclareDeclare('strict_types', new Node\Scalar\LNumber(1)),
                     ]),
@@ -93,25 +94,34 @@ final class TemplatesTest extends TestCase
 //        self::assertSame([], $files);
         self::assertCount(3, $files);
 
-        self::assertArrayHasKey('/.editorconfig', $files);
-        self::assertArrayHasKey('/composer.json', $files);
-        self::assertArrayHasKey('/README.md', $files);
+        self::assertArrayHasKey('.editorconfig', $files);
+        self::assertArrayHasKey('composer.json', $files);
+        self::assertArrayHasKey('README.md', $files);
 
-        self::assertSame(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . '.editorconfig'), $files['/.editorconfig']->contents);
-        self::assertNotSame(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'composer.json'), $files['/composer.json']->contents);
-        self::assertNotSame(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'README.md'), $files['/README.md']->contents);
+        self::assertSame($this->readTemplate('.editorconfig'), $files['.editorconfig']->contents);
+        self::assertNotSame($this->readTemplate('composer.json'), $files['composer.json']->contents);
+        self::assertNotSame($this->readTemplate('README.md'), $files['README.md']->contents);
 
-        self::assertStringContainsString('"name": "api-clients/github"', $files['/composer.json']->contents);
-        self::assertStringContainsString('"ApiClients\\\\Client\\\\GitHub": "src/"', $files['/composer.json']->contents);
-        self::assertStringContainsString('"ApiClients\\\\Tests\\\\Client\\\\GitHub": "tests/"', $files['/composer.json']->contents);
-        self::assertStringContainsString('"etc/phpstan-extension.neon"', $files['/composer.json']->contents);
+        self::assertStringContainsString('"name": "api-clients/github"', $files['composer.json']->contents);
+        self::assertStringContainsString('"ApiClients\\\\Client\\\\GitHub": "src/"', $files['composer.json']->contents);
+        self::assertStringContainsString('"ApiClients\\\\Tests\\\\Client\\\\GitHub": "tests/"', $files['composer.json']->contents);
+        self::assertStringContainsString('"etc/phpstan-extension.neon"', $files['composer.json']->contents);
 
-        self::assertStringContainsString('### root', $files['/README.md']->contents);
-        self::assertStringContainsString('$client->call(\'GET /\');', $files['/README.md']->contents);
-        self::assertStringContainsString('$client->operations()->()->root(', $files['/README.md']->contents);
+        self::assertStringContainsString('### root', $files['README.md']->contents);
+        self::assertStringContainsString('$client->call(\'GET /\');', $files['README.md']->contents);
+        self::assertStringContainsString('$client->operations()->()->root(', $files['README.md']->contents);
     }
 
-    private static function loadSpec(string $dataSetName): Representation
+    private function readTemplate(string $fileName): string
+    {
+        $lines = file(__DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $fileName);
+
+        self::assertNotFalse($lines);
+
+        return implode('', $lines);
+    }
+
+    private function loadSpec(string $dataSetName): Representation
     {
         return Gatherer::gather(
             Reader::readFromYamlFile($dataSetName),

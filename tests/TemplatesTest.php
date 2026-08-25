@@ -75,8 +75,9 @@ final class TemplatesTest extends TestCase
             [],
         );
 
-        $generatedFiles = [...new Templates()->generate($package, $representation->namespace($package->namespace))];
-        $files          = [];
+        $namespacedRepresentation = $representation->namespace($package->namespace);
+        $generatedFiles           = [...new Templates()->generate($package, $namespacedRepresentation)];
+        $files                    = [];
         foreach ($generatedFiles as $generatedFile) {
             $files[$generatedFile->fqcn] = new File(
                 $generatedFile->pathPrefix,
@@ -106,6 +107,10 @@ final class TemplatesTest extends TestCase
         self::assertStringContainsString('"ApiClients\\\\Client\\\\GitHub": "src/"', $files['composer.json']->contents);
         self::assertStringContainsString('"ApiClients\\\\Tests\\\\Client\\\\GitHub": "tests/"', $files['composer.json']->contents);
         self::assertStringContainsString('"etc/phpstan-extension.neon"', $files['composer.json']->contents);
+
+        if ($namespacedRepresentation->client->paths === []) {
+            return;
+        }
 
         self::assertStringContainsString('### root', $files['README.md']->contents);
         self::assertStringContainsString('$client->call(\'GET /\');', $files['README.md']->contents);

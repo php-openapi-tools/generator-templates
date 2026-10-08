@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eb76e79ec153651f660838f0d45ff7f4",
+    "content-hash": "9513af5fd96bc4aaaac14648ff2a2d98",
     "packages": [
         {
             "name": "devizzent/cebe-php-openapi",
@@ -10576,16 +10576,16 @@
         },
         {
             "name": "wyrihaximus/makefiles",
-            "version": "0.14.6",
+            "version": "0.15.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/Makefiles.git",
-                "reference": "5429f0ecb0b7537efacb4f5ad5c8859e468a727e"
+                "reference": "87dcd19b99012b7dd08df68a4914fd0e6b08f395"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/Makefiles/zipball/5429f0ecb0b7537efacb4f5ad5c8859e468a727e",
-                "reference": "5429f0ecb0b7537efacb4f5ad5c8859e468a727e",
+                "url": "https://api.github.com/repos/WyriHaximus/Makefiles/zipball/87dcd19b99012b7dd08df68a4914fd0e6b08f395",
+                "reference": "87dcd19b99012b7dd08df68a4914fd0e6b08f395",
                 "shasum": ""
             },
             "require": {
@@ -10597,7 +10597,7 @@
                 "infection/infection": "<0.32.0"
             },
             "require-dev": {
-                "wyrihaximus/test-utilities": "^14.1.0"
+                "wyrihaximus/test-utilities": "^14.4.0"
             },
             "type": "composer-plugin",
             "extra": {
@@ -10626,7 +10626,7 @@
             "description": "🧱 Makefile building blocks",
             "support": {
                 "issues": "https://github.com/WyriHaximus/Makefiles/issues",
-                "source": "https://github.com/WyriHaximus/Makefiles/tree/0.14.6"
+                "source": "https://github.com/WyriHaximus/Makefiles/tree/0.15.2"
             },
             "funding": [
                 {
@@ -10634,7 +10634,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-26T20:51:39+00:00"
+            "time": "2026-10-08T05:32:38+00:00"
         },
         {
             "name": "wyrihaximus/phpstan-no-safe",
